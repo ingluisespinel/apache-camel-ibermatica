@@ -1,5 +1,6 @@
 package com.formadoresit.camel.routes;
 
+import com.formadoresit.camel.components.OrderComponent;
 import com.formadoresit.camel.domain.Order;
 import com.formadoresit.camel.processors.MyProcessor;
 import org.apache.camel.builder.RouteBuilder;
@@ -23,11 +24,11 @@ public class MySpringBootRouter extends RouteBuilder {
                 // Ejemplo de uso de setHeader para establecer Header
                 .setHeader("MyHeader", constant("Header value"))
                 .setHeader("PaymentMethod", constant("PAYPAL"))
-                // Establecer body vía setBody
+                // Ejemplo para establecer body vía setBody
                 .setBody(constant("Hola Mundo !"))
                 // Ejemplo de llamado a método a través del uso de bean
                 //.bean("orderComponent", "generateOrder()")
-                .bean("orderComponent", "generateOrder(1001, ${header.PaymentMethod})")
+                .bean(OrderComponent.class, "generateOrder(1001, ${header.PaymentMethod})")
                 .to("direct:routeA")
                 //.process(myProcessor)
                 .to("direct:routeB");
