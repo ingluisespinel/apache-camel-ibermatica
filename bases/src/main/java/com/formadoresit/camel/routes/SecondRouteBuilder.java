@@ -12,15 +12,18 @@ public class SecondRouteBuilder extends RouteBuilder {
                 .log("Procesando second timer")
                 .setBody(constant("A,B,C,D"))
                 .split(body().tokenize(","))
-                    .to("direct:processLetter");
+                    .to("direct:processLetterWithRecipientList");
 
-        from("direct:processLetter")
+        from("direct:processLetterWithMulticast")
                 .log("Body ${body}")
                 .multicast()
-                    .to("direct:route1")
-                    .to("direct:route2")
+                    .to("direct:route1", "direct:route2")
                 .end()
                 .log("Finalizado con body ${body}");
+
+        from("direct:processLetterWithRecipientList")
+                .setHeader("destinos", constant("direct:route1,direct:route2"))
+                .recipientList(header("destinos"));
 
         from("direct:route1")
                 .routeId("route-1")

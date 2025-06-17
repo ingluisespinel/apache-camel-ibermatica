@@ -21,6 +21,7 @@ public class MySpringBootRouter extends RouteBuilder {
     public void configure() {
         from("timer:disparador?period={{app.disparador.period}}")
                 .routeId("disparador")
+                .autoStartup(false)
                 // Ejemplo de uso de setHeader para establecer Header
                 .setHeader("MyHeader", constant("Header value"))
                 .setHeader("PaymentMethod", constant("PAYPAL"))

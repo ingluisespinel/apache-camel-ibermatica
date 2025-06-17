@@ -28,4 +28,21 @@ public class OrderComponent {
         order.setPaymentMethod(paymentMethod);
         return order;
     }
+
+    public List<Order> generateOrderList(){
+        var order = new Order();
+        order.setId(UUID.randomUUID().toString());
+        order.setOwner("Luis");
+        order.setItems(List.of("Item1", "Item2", "Item3"));
+        order.setAmount(1001d);
+        order.setPaymentMethod("PAYPAL");
+
+        var order2 = new Order();
+        order2.setId(UUID.randomUUID().toString());
+        order2.setOwner("Carlos");
+        order2.setItems(List.of("Item1"));
+        order2.setAmount(2000d);
+        order2.setPaymentMethod("PAYU");
+        return List.of(order, order2);
+    }
 }
