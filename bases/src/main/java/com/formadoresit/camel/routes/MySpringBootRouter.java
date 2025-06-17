@@ -5,6 +5,9 @@ import com.formadoresit.camel.processors.MyProcessor;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.UUID;
+
 @Component
 public class MySpringBootRouter extends RouteBuilder {
     private final MyProcessor myProcessor;
@@ -22,7 +25,15 @@ public class MySpringBootRouter extends RouteBuilder {
                 .setHeader("PaymentMethod", constant("PAYPAL"))
                 // Establecer body vía setBody
                 .setBody(constant("Hola Mundo !"))
-                /* Ejemplo de uso de processors para acceso al objeto Exchange
+                // Ejemplo de llamado a método a través del uso de bean
+                //.bean("orderComponent", "generateOrder()")
+                .bean("orderComponent", "generateOrder(1001, ${header.PaymentMethod})")
+                .to("direct:routeA")
+                //.process(myProcessor)
+                .to("direct:routeB");
+
+        from("direct:creationOrderViaProcessor")
+                // Ejemplo de uso de processors para acceso al objeto Exchange //
                 .process(exchange -> {
                     var order = new Order();
                     order.setId(UUID.randomUUID().toString());
@@ -31,14 +42,7 @@ public class MySpringBootRouter extends RouteBuilder {
                     order.setAmount(1001d);
                     order.setPaymentMethod("PAYPAL");
                     exchange.getMessage().setBody(order);
-                })
-                */
-                // Ejemplo de llamado a método a través del uso de bean
-                //.bean("orderComponent", "generateOrder()")
-                .bean("orderComponent", "generateOrder(1001, ${header.PaymentMethod})")
-                .to("direct:routeA")
-                //.process(myProcessor)
-                .to("direct:routeB");
+                });
 
         from("direct:routeA")
                 .routeId("route-a")
