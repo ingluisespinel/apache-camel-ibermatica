@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<user>
+    <name>James</name>
+    <id>10</id>
+    <roles>
+        <rol>
+            <id>199</id>
+            <name>Admin</name>
+        </rol>
+    </roles>
+</user>

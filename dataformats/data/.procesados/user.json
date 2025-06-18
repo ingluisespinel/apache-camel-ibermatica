@@ -1,0 +1,20 @@
+{
+  "id": 1,
+  "name": "Juan",
+  "email": "juan.perez@example.com",
+  "birth_date": "1990-05-15",
+  "movies": [
+    {
+      "id": 101,
+      "name": "The Matrix"
+    },
+    {
+      "id": 102,
+      "name": "Inception"
+    },
+    {
+      "id": 103,
+      "name": "Interstellar"
+    }
+  ]
+}

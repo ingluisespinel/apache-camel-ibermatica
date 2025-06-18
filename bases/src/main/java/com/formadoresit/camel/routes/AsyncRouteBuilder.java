@@ -9,9 +9,9 @@ public class AsyncRouteBuilder extends RouteBuilder {
     public void configure() throws Exception {
         // Valores por default ??
 
-        from("timer:asyncExample?period=5s")
+        from("timer:asyncExample?period={{app.disparador.period}}")
                 .log("iniciando timer")
-                .setBody(constant("1,2,3,4,5"))
+                .setBody(constant("1,2,3,4,5,6,7,8,9,10,11,12,13"))
                 .split(body().tokenize(","))
                     .parallelProcessing()
                     .to("direct:processSync")
