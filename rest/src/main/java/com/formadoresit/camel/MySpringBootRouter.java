@@ -1,6 +1,7 @@
 package com.formadoresit.camel;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.ValidationException;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.model.rest.RestParamType;
@@ -32,7 +33,10 @@ public class MySpringBootRouter extends RouteBuilder {
 
          */
 
+        restConfiguration().clientRequestValidation(true);
+
         rest("/users")
+                .description("Endpoints for Users resource")
                 .get()
                     .produces("application/json")
                     .to("direct:getUsers")
@@ -42,7 +46,10 @@ public class MySpringBootRouter extends RouteBuilder {
                         .name("userId")
                         .type(RestParamType.path).description("User Id to find")
                     .endParam()
-                    .to("direct:getUserById");
+                    .to("direct:getUserById")
+                .get("/by-age")
+                    .param().name("age").type(RestParamType.query).description("User age").required(true).endParam()
+                    .to("direct:getByAge");
 
         rest("/admin")
                 .get("/roles").to("direct:adminGetRoles");
@@ -71,6 +78,10 @@ public class MySpringBootRouter extends RouteBuilder {
 
         from("direct:getUserById")
                 .log("procesando get user by id");
+
+        from("direct:getByAge")
+                .log("Processing by age ")
+                .process(exchange -> exchange.getMessage().setBody(Map.of("age", "100")));
     }
 
 }
