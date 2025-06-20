@@ -44,6 +44,13 @@ public class MySpringBootRouter extends RouteBuilder {
                     .endParam()
                     .to("direct:getUserById");
 
+        rest("/admin")
+                .get("/roles").to("direct:adminGetRoles");
+
+        from("direct:adminGetRoles")
+                .log("Processing admin request")
+                .process(exchange -> exchange.getMessage().setBody(Map.of("users", "admin")));
+
         from("direct:getUsers")
                 .log("procesando get users")
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(200))
