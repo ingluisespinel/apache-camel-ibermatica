@@ -60,6 +60,15 @@ public class MySpringBootRouter extends RouteBuilder {
                     exchange.getMessage().setBody(body);
                 });
 
+        from("direct:getUsers2")
+                .log("procesando get users")
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(200))
+                .process(exchange -> {
+                    Map<String, Object> body = new HashMap<>();
+                    body.put("message", "ok");
+                    exchange.getMessage().setBody(body);
+                });
+
         from("direct:getUserById")
                 .log("procesando get user by id");
     }
