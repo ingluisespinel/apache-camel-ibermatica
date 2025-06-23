@@ -1,9 +1,14 @@
 package com.formadoresit.camel.domain;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
+@Entity
+@Table(name = "usuario")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotBlank(message = "name requerido")
     private String name;

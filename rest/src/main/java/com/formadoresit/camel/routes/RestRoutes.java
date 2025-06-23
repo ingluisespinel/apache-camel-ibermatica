@@ -41,13 +41,15 @@ public class RestRoutes extends RouteBuilder {
                 // "GET /api/camel/users/{userId}"
                 .get("/{userId}")
                     .param().name("userId").required(true).type(RestParamType.path).endParam()
-                    .param().name("page").type(RestParamType.query).required(true).endParam()
-                    .to("direct:getUserById")
+                    .to("direct:getUserByIdController")
+                .get("/by-age")
+                    .param().name("age").required(true).type(RestParamType.query).endParam()
+                    .to("direct:getUsersByAgeController")
                 .post()
                     .description("Create User")
                     .type(User.class)
                     .outType(User.class)
-                    .to("direct:addUser");
+                    .to("direct:createUserController");
 
         rest("/admin")
                 .get("/roles").to("direct:getRoles");
@@ -56,20 +58,21 @@ public class RestRoutes extends RouteBuilder {
                 .process(exchange -> exchange.getMessage().setBody(Map.of("rol1", "admin")));
 
         from("direct:getUsersController")
-                .to("direct:getUsers");
+                .to("direct:getAllUsers");
 
-        from("direct:getUsers")
-                .log("procesando get users")
-                .bean(UserRepo.class, "getUsers");
+        from("direct:getUsersByAgeController")
+                .to("direct:getUsersByAge");
 
-        from("direct:addUser")
+        from("direct:getUserByIdController")
+                .to("direct:getUserById")
+                .filter((body().isNull()))
+                    .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(404))
+                .end();
+
+        from("direct:createUserController")
                 .to("bean-validator:validateUser")
-                .bean(UserRepo.class, "addUser")
+                .to("direct:createUserJpa")
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201));
-
-        from("direct:getUserById")
-                .log("procesando get user by id, con headers ${headers}")
-                .setBody(simple("${headers}"));
 
         from("direct:dataErrorHandler")
                 .log("Manejando")
