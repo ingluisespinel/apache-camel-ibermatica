@@ -71,7 +71,7 @@ public class RestRoutes extends RouteBuilder {
 
         from("direct:createUserController")
                 .to("bean-validator:validateUser")
-                .to("direct:createUserJpa")
+                .to("direct:createUser")
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201));
 
         from("direct:dataErrorHandler")

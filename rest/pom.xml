@@ -134,6 +134,11 @@
 
     <dependency>
       <groupId>org.apache.camel.springboot</groupId>
+      <artifactId>camel-xpath-starter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.camel.springboot</groupId>
       <artifactId>camel-sql-starter</artifactId>
     </dependency>
 
@@ -145,6 +150,38 @@
     <dependency>
       <groupId>org.apache.camel.springboot</groupId>
       <artifactId>camel-mongodb-starter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-resilience4j</artifactId>
+      <version>4.10.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.camel.springboot</groupId>
+      <artifactId>camel-activemq-starter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.camel.springboot</groupId>
+      <artifactId>camel-micrometer-starter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/io.hawt/hawtio-springboot -->
+    <dependency>
+      <groupId>io.hawt</groupId>
+      <artifactId>hawtio-springboot</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.springboot</groupId>
+      <artifactId>camel-management-starter</artifactId>
     </dependency>
 
     <!-- Test -->
