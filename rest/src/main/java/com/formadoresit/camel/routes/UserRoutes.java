@@ -40,11 +40,10 @@ public class UserRoutes extends RouteBuilder {
                     }
                 })
                 .to("activemq:queue:newUsers?disableReplyTo=true");
+
         from("direct:getUserById")
                 .log("Buscando user id ${header.userId}")
                 .to("sql:classpath:queries/findById.sql?outputClass=com.formadoresit.camel.domain.User&outputType=SelectOne");
-
-
 
         from("activemq:queue:newUsers")
                 .log("Consumiendo evento ${body.id} con tipo ${body.class}");
